@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.11.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="accounting_for_vacancies">
+        <createTable tableName="STRUCTURAL_UNIT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_STRUCTURAL_UNIT"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CODE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="accounting_for_vacancies">
+        <createTable tableName="VACANCY">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_VACANCY"/>
+            </column>
+            <column name="START_DATE" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="END_DATE" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(255)"/>
+            <column name="SKILLS" type="VARCHAR(255)"/>
+            <column name="STRUCTURAL_UNIT_ID" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RESUME" type="VARCHAR(1024)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="accounting_for_vacancies">
+        <createIndex indexName="IDX_VACANCY_STRUCTURAL_UNIT" tableName="VACANCY">
+            <column name="STRUCTURAL_UNIT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="STRUCTURAL_UNIT_ID" baseTableName="VACANCY"
+                                 constraintName="FK_VACANCY_ON_STRUCTURAL_UNIT" referencedColumnNames="ID"
+                                 referencedTableName="STRUCTURAL_UNIT"/>
+    </changeSet>
+</databaseChangeLog>
